@@ -1,7 +1,8 @@
+import 'package:capstone_project/view/signup_screens/desktop_signup.dart';
+import 'package:capstone_project/view/signup_screens/mobile_signup.dart';
 import 'package:flutter/material.dart';
 
-import '../signup_screens/desktop_signup.dart';
-import '../signup_screens/mobile_signup.dart';
+
 
 class ResponsiveSignUpPage extends StatelessWidget {
   const ResponsiveSignUpPage({super.key});

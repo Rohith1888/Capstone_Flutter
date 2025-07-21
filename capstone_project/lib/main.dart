@@ -1,5 +1,7 @@
-import 'package:capstone_project/main/LearnHubApp.dart';
+
 import 'package:flutter/material.dart';
+
+import 'view/main/learnhubapp.dart';
 
 void main() {
   runApp(const LearnHubApp());
