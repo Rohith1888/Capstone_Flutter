@@ -1,3 +1,4 @@
+import 'package:capstone_project/view/dashboard/responsive_layout_dashboard.dart';
 import 'package:flutter/material.dart';
 
 import '../responsive/responsive_signup_page.dart';
@@ -145,8 +146,11 @@ class _SignInFormState extends State<SignInForm> {
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Signing in...')),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ResponsiveLayout(),
+                        ),
                       );
                     }
                   },
