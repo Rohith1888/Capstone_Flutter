@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../responsive/responsive_singin_page.dart';
 
 class SignUpForm extends StatefulWidget {
   final bool showWelcome;
@@ -10,7 +11,6 @@ class SignUpForm extends StatefulWidget {
 
 class _SignUpFormState extends State<SignUpForm> {
   bool _passwordVisible = false;
-
   final _formKey = GlobalKey<FormState>();
 
   // Controllers
@@ -41,6 +41,7 @@ class _SignUpFormState extends State<SignUpForm> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Logo and title
         Row(
           children: [
             Container(
@@ -75,6 +76,7 @@ class _SignUpFormState extends State<SignUpForm> {
         ),
         const SizedBox(height: 32),
 
+        // Form
         Form(
           key: _formKey,
           child: Column(
@@ -84,12 +86,17 @@ class _SignUpFormState extends State<SignUpForm> {
               const SizedBox(height: 6),
               TextFormField(
                 controller: _nameController,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                   isDense: true,
                   hintText: 'Enter your name',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
-                    borderSide: const BorderSide(color: Colors.grey, width: 1),
                   ),
                 ),
               ),
@@ -100,6 +107,12 @@ class _SignUpFormState extends State<SignUpForm> {
               TextFormField(
                 controller: _dobController,
                 readOnly: true,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please select your date of birth';
+                  }
+                  return null;
+                },
                 onTap: () async {
                   final DateTime? pickedDate = await showDatePicker(
                     context: context,
@@ -127,6 +140,15 @@ class _SignUpFormState extends State<SignUpForm> {
               TextFormField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                    return 'Enter a valid email address';
+                  }
+                  return null;
+                },
                 decoration: const InputDecoration(
                   isDense: true,
                   hintText: 'jonas_kahnwald@gmail.com',
@@ -139,6 +161,15 @@ class _SignUpFormState extends State<SignUpForm> {
               TextFormField(
                 controller: _passwordController,
                 obscureText: !_passwordVisible,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+                  return null;
+                },
                 decoration: InputDecoration(
                   isDense: true,
                   hintText: 'Password',
@@ -162,30 +193,23 @@ class _SignUpFormState extends State<SignUpForm> {
                     ),
                   ),
                   onPressed: () {
-                    if(_nameController.text.isEmpty ||
-                       _dobController.text.isEmpty ||
-                       _emailController.text.isEmpty ||
-                       _passwordController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Please fill all fields')),
-                      );
-                      return;
-                    }
-                    // Use the controllers' values for backend calls
-                    print("Name: ${_nameController.text}");
-                    print("DOB: ${_dobController.text}");
-                    print("Email: ${_emailController.text}");
-                    print("Password: ${_passwordController.text}");
-                    _nameController.clear();
-                    _dobController.clear();
-                    _emailController.clear();
-                    _passwordController.clear();
                     if (_formKey.currentState!.validate()) {
+                      // Submit logic
+                      print("Name: ${_nameController.text}");
+                      print("DOB: ${_dobController.text}");
+                      print("Email: ${_emailController.text}");
+                      print("Password: ${_passwordController.text}");
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Sign up successful!')),
                       );
+
+                      // Clear after success
+                      _nameController.clear();
+                      _dobController.clear();
+                      _emailController.clear();
+                      _passwordController.clear();
                     }
-                    
                   },
                   child: const Text(
                     'Sign up',
@@ -241,7 +265,14 @@ class _SignUpFormState extends State<SignUpForm> {
             const Text('Already have an account? ',
                 style: TextStyle(fontSize: 14)),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ResponsiveSignInPage(),
+                  ),
+                );
+              },
               child: const Text(
                 'Sign in',
                 style: TextStyle(

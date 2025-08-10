@@ -1,8 +1,8 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../responsive/responsive_signup_page.dart';
-
+import '../responsive//responsive_singin_page.dart';
 
 class LearnHubApp extends StatelessWidget {
   const LearnHubApp({super.key});
@@ -22,7 +22,7 @@ class LearnHubApp extends StatelessWidget {
   ),
 ),
 
-      home: const ResponsiveSignUpPage(),
+      home: const ResponsiveSignInPage(),
     );
   }
 }
