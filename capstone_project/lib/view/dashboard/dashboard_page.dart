@@ -5,7 +5,10 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return SafeArea(
+        child:
+        SingleChildScrollView
+     (
       padding: const EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,8 +84,10 @@ _buildProgressCard(
           ),
           const SizedBox(height: 12),
           _exploreCoursesSection(),
+
         ],
       ),
+    )
     );
   }
 
@@ -156,7 +161,7 @@ _buildProgressCard(
 
   Widget _exploreCoursesSection() {
   return SizedBox(
-    height: 300,
+    height: 320,
     child: ListView(
       scrollDirection: Axis.horizontal,
       children: [
@@ -405,6 +410,7 @@ static Widget _courseCard({
 }) {
   return Container(
     width: 260,
+
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(16),
@@ -439,7 +445,7 @@ static Widget _courseCard({
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
                       color: Colors.blue.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(12),

@@ -1,4 +1,5 @@
 import 'package:capstone_project/view/navigation_drawer.dart';
+import 'package:capstone_project/view/responsive/responsive_singin_page.dart';
 import 'package:flutter/material.dart';
 
 import '../placeholder.dart';
@@ -31,6 +32,17 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
     });
   }
 
+  void _handleMenuSelection(String value) {
+    if (value == 'logout') {
+      print("Logging out...");
+      // TODO: Implement logout logic here
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ResponsiveSignInPage()),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -47,7 +59,8 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
+                    border:
+                    Border(bottom: BorderSide(color: Colors.grey.shade300)),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,7 +80,8 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
                           const SizedBox(width: 8),
                           const Text(
                             "LearnHub",
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(width: 50),
                           // Search Field for Desktop
@@ -77,23 +91,26 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
                               controller: _searchController,
                               decoration: InputDecoration(
                                 hintText: "What do you want to learn?",
-                                hintStyle: TextStyle(color: Colors.grey.shade600),
-                                contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+                                hintStyle:
+                                TextStyle(color: Colors.grey.shade600),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 16),
                                 filled: true,
                                 fillColor: Colors.white,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30),
-                                  borderSide: BorderSide(color: Colors.grey.shade300),
+                                  borderSide:
+                                  BorderSide(color: Colors.grey.shade300),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30),
-                                  borderSide: BorderSide(color: Colors.grey.shade300),
+                                  borderSide:
+                                  BorderSide(color: Colors.grey.shade300),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(30),
-                                  borderSide:
-                                      BorderSide(color: Theme.of(context).primaryColor),
+                                  borderSide: BorderSide(
+                                      color: Theme.of(context).primaryColor),
                                 ),
                                 suffixIcon: Container(
                                   margin: const EdgeInsets.all(4),
@@ -102,7 +119,8 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
                                     borderRadius: BorderRadius.circular(30),
                                   ),
                                   child: IconButton(
-                                    icon: const Icon(Icons.search, color: Colors.white),
+                                    icon: const Icon(Icons.search,
+                                        color: Colors.white),
                                     onPressed: () {
                                       // Trigger search
                                     },
@@ -117,14 +135,25 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
                       Row(
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.notifications_outlined, size: 24),
+                            icon: const Icon(Icons.notifications_outlined,
+                                size: 24),
                             onPressed: () {},
                           ),
                           const SizedBox(width: 12),
-                          const CircleAvatar(
-                            radius: 18,
-                            backgroundImage:
-                                NetworkImage("https://htmlstream.com/preview/unify-v2.6.2/assets/img-temp/400x450/img5.jpg"),
+                          PopupMenuButton<String>(
+                            onSelected: _handleMenuSelection,
+                            itemBuilder: (context) => const [
+                              PopupMenuItem(
+                                value: 'logout',
+                                child: Text('Logout'),
+                              ),
+                            ],
+                            child: const CircleAvatar(
+                              radius: 18,
+                              backgroundImage: NetworkImage(
+                                "https://htmlstream.com/preview/unify-v2.6.2/assets/img-temp/400x450/img5.jpg",
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -150,9 +179,11 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
           // Mobile View with animated search in AppBar
           return Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               title: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
-                transitionBuilder: (Widget child, Animation<double> animation) {
+                transitionBuilder:
+                    (Widget child, Animation<double> animation) {
                   return SizeTransition(
                     sizeFactor: animation,
                     axis: Axis.horizontal,
@@ -161,53 +192,56 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
                 },
                 child: _isSearching
                     ? Container(
-                        key: const ValueKey("searchField"),
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: TextField(
-                          controller: _searchController,
-                          autofocus: true,
-                          decoration: InputDecoration(
-                            hintText: "What do you want to learn?",
-                            hintStyle: TextStyle(color: Colors.grey.shade600),
-                            border: InputBorder.none,
-                            contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 16),
-                            suffixIcon: IconButton(
-                              icon: const Icon(Icons.search, color: Colors.blue),
-                              onPressed: () {
-                                // Trigger search
-                              },
-                            ),
-                          ),
-                          onSubmitted: (value) {
-                            setState(() => _isSearching = false);
-                          },
-                        ),
-                      )
-                    : Row(
-                        key: const ValueKey("titleRow"),
-                        children: [
-                          Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.purple,
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: const Icon(Icons.school, color: Colors.white),
-                          ),
-                          const SizedBox(width: 8),
-                          const Text(
-                            "LearnHub",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                  key: const ValueKey("searchField"),
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: TextField(
+                    controller: _searchController,
+                    autofocus: true,
+                    decoration: InputDecoration(
+                      hintText: "What do you want to learn?",
+                      hintStyle:
+                      TextStyle(color: Colors.grey.shade600),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16),
+                      suffixIcon: IconButton(
+                        icon: const Icon(Icons.search,
+                            color: Colors.blue),
+                        onPressed: () {
+                          // Trigger search
+                        },
                       ),
+                    ),
+                    onSubmitted: (value) {
+                      setState(() => _isSearching = false);
+                    },
+                  ),
+                )
+                    : Row(
+                  key: const ValueKey("titleRow"),
+                  children: [
+                    Container(
+                      height: 40,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF312ECB),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.school,
+                          color: Colors.white),
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      "LearnHub",
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
               backgroundColor: Theme.of(context).primaryColor,
               foregroundColor: Colors.white,
@@ -227,15 +261,24 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
                   },
                 ),
                 IconButton(
-                  icon:
-                      const Icon(Icons.notifications_outlined, color: Colors.white),
+                  icon: const Icon(Icons.notifications_outlined,
+                      color: Colors.white),
                   onPressed: () {},
                 ),
                 const SizedBox(width: 4),
-                const CircleAvatar(
-                  radius: 16,
-                  backgroundImage:
-                      NetworkImage("https://via.placeholder.com/150"),
+                PopupMenuButton<String>(
+                  onSelected: _handleMenuSelection,
+                  itemBuilder: (context) => const [
+                    PopupMenuItem(
+                      value: 'logout',
+                      child: Text('Logout'),
+                    ),
+                  ],
+                  child: const CircleAvatar(
+                    radius: 16,
+                    backgroundImage:
+                    NetworkImage("https://via.placeholder.com/150"),
+                  ),
                 ),
                 const SizedBox(width: 12),
               ],
